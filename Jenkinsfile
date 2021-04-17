@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'maven-3.6.3' 
+        maven 'MAVEN_HOME' 
     }
     stages {
         stage ('Check maven version') {
@@ -40,7 +40,7 @@ pipeline {
         }
 	stage('Sonarqube analysis') {
 	    environment { 
-	        scannerhome = tool 'sonarqube-scanner'
+	        scannerhome = tool 'scan'
 	    }
 	    steps {
 	        withSonarQubeEnv('sonarqube') {
@@ -51,7 +51,7 @@ pipeline {
 	stage('Docker Build and Push') {
             steps {
                 script {
-                    myapp = docker.build("revathilakshmanan/easyclaim-backend:${env.BUILD_ID}")
+                    myapp = docker.build("thangaduraisrt/easyclaim-backend:${env.BUILD_ID}")
                     docker.withRegistry('https://registry.hub.docker.com', 'docker_credential') {
                         myapp.push("latest")
                         myapp.push("${env.BUILD_ID}")
