@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name:  easyclaim-backend
-          image: revathilakshmanan/easyclaim-backend:latest
+          image: thangaduraisrt/easyclaim-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
