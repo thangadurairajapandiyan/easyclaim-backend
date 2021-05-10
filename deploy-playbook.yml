@@ -1,6 +1,7 @@
 ---
 - name: Create pods using deployment 
   hosts: localhost
+  connection: local
   tasks:
   - name: create a deployment
     command: kubectl apply -f backend-deployment.yml
