@@ -1,12 +1,10 @@
 ---
 - name: Create pods using deployment 
-  hosts: master
+  hosts: localhost
+  connection: local
   tasks:
-  - name: copy deployment file
-    copy: src="./backend-deployment.yml" dest="backend-deployment.yml"
-
   - name: create a deployment
     command: kubectl apply -f backend-deployment.yml
  
   - name: update deployment with new pods if image updated in docker hub
-    command: kubectl rollout restart deployment.v1.apps/easyclaim-backend -n capstone
+    command: kubectl rollout restart deployment.v1.apps/easyclaim-backend

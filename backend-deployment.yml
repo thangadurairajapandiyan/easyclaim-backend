@@ -2,21 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: easyclaim-backend
-  namespace: capstone
   labels:
     name: easyclaim-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: easyclaim-backend-pod
+      name: easyclaim-backend
   strategy:
     type: Recreate
   template:
     metadata:
-      name: easyclaim-backend-pod
+      name: easyclaim-backend
       labels:
-        name: easyclaim-backend-pod
+        name: easyclaim-backend
     spec:
       containers:
         - name:  easyclaim-backend
@@ -24,20 +23,29 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
+          volumeMounts:
+          - name: config-volume
+            mountPath: "/config"
+      volumes:
+      - name: config-volume
+        configMap:
+          name: easyclaim-backend
+          items:
+          - key: application.properties
+            path: application.properties
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: easyclaim-backend-service
-  namespace: capstone
+  name: easyclaim-backend
   labels:
-    name: easyclaim-backend-service
+    name: easyclaim-backend
 spec:
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 32002
+      nodePort: 32001
   selector:
-    name: easyclaim-backend-pod
+    name: easyclaim-backend
   type: NodePort
